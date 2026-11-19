@@ -1,0 +1,9 @@
+# Excel reporting
+
+All exports are generated in memory from the selected `InvestigationResult`; no collector is rerun. The workbook writer escapes formula-like text, freezes row one, enables filters, bounds column widths, and emits header-only sheets for empty collections.
+
+`export_investigation_workbook(result)` retains the original seven sheets and adds Profile Intelligence, Identity Attributes, Dedup Identity Attributes, Profile URL Collection Audit, Identity Correlations, Threat Indicators, Identity Diagnostics, URL Verification, and Attack Surface Assessment. The shortened deduplicated sheet title stays within Excel's 31-character worksheet name limit.
+
+`export_findings_workbook(result)` remains a separate three-sheet profile findings workbook. `export_identity_workbook(result)` includes Profile Intelligence, All Identity Attributes, Dedup Identity Attributes, Profile URL Collection Audit, Identity Correlations, Threat Indicators, Identity Diagnostics, URL Verification, and Attack Surface Assessment. Profile Intelligence joins an attribute to a finding only by canonical source URL. Original and normalized values, evidence, sources, timestamps, lineage, provenance, verification status, and association status are kept distinct. URL Verification preserves original/final URLs, metadata, outcome, explanation, and lineage. Attack Surface Assessment exports count definitions, narrative, actions, limitations, and an explicit statement that no numeric score is implemented. Audit rows retain original source URL cells from collector output where available.
+
+The Streamlit export buttons operate on the selected in-session investigation. History is not persisted when the session ends. Identity attributes and profile findings remain separate record types; neither workbook makes ownership or identity claims.
